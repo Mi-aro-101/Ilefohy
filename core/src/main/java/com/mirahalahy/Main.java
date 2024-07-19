@@ -18,18 +18,15 @@ public class Main extends ApplicationAdapter {
 
 	TiledMap tileMap;
 	OrthogonalTiledMapRenderer tmr;
+	Environment environment;
     @Override
     public void create() {
-    	tileMap = new TmxMapLoader().load("maps/level1.tmx");
-    	tmr = new OrthogonalTiledMapRenderer(tileMap);
-    	Camera.getCamera().setToOrtho(false, 1200, 1200);
+    	environment = new Environment(0);
     }
 
     @Override
     public void render() {
-    	Camera.update();
-    	tmr.setView(Camera.getCamera());
-    	tmr.render();
+    	environment.render();
     }
 
     @Override
