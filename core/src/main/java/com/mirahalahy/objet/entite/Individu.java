@@ -1,8 +1,14 @@
 package com.mirahalahy.objet.entite;
 
+import com.badlogic.gdx.physics.box2d.World;
 import com.mirahalahy.objet.GameObject;
 
 public class Individu extends GameObject{
+
+	public Individu(World world, float width, float height) {
+		super(world, width, height);
+		// TODO Auto-generated constructor stub
+	}
 	int id;
 	String nom;
 	String description;

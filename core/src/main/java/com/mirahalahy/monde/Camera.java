@@ -9,11 +9,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Camera {
     static OrthographicCamera camera = new OrthographicCamera();
-    static Viewport view;
+    static Viewport view = new FitViewport(800, 600, camera);
 
-    static {
-        view = new FitViewport(800, 600, camera);
-    }
 
     public static OrthographicCamera getCamera() {
         return camera;
@@ -21,8 +18,10 @@ public class Camera {
 
     public static void setCamera(OrthographicCamera camera) {
         Camera.camera = camera;
+        camera.zoom = 0.4f;
         view = new FitViewport(800, 600, camera);
-        view.update(800, 600);
+        view.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.position.set(view.getWorldWidth()/5, view.getWorldHeight()/5, 0);
     }
 
     public static Viewport getView() {
@@ -33,19 +32,18 @@ public class Camera {
         Camera.view = view;
     }
 
-    public static void update() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        camera.update();
-    }
-
     public static Matrix4 getCombined() {
         return camera.combined;
     }
 
+    public static void update() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        camera.update();
+        view.apply();
+    }
+
     public static void resize(int width, int height) {
         view.update(width, height);
-        camera.position.set(view.getWorldWidth() / 2, view.getWorldHeight() / 2, 0);
-        camera.update();
     }
 }

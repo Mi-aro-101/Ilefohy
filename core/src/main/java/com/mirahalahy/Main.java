@@ -28,6 +28,7 @@ public class Main extends ApplicationAdapter {
     public void render() {
     	environment.render();
     }
+    
 
     @Override
     public void dispose() {
