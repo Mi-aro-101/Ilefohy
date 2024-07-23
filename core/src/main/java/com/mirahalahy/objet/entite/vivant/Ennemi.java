@@ -10,4 +10,9 @@ public class Ennemi extends Individu{
 	}
 	float champDeVision;
 	float attaque;
+	@Override
+	public void handleInput() {
+		// TODO Auto-generated method stub
+		
+	}
 }

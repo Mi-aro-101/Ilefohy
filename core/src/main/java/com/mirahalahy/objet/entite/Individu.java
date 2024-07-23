@@ -3,17 +3,20 @@ package com.mirahalahy.objet.entite;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mirahalahy.objet.GameObject;
 
-public class Individu extends GameObject{
+public abstract class Individu extends GameObject{
 
 	public Individu(World world, float width, float height) {
 		super(world, width, height);
-		// TODO Auto-generated constructor stub
+		setEstVivant(false);
 	}
+	
 	int id;
 	String nom;
 	String description;
 	float vie;
 	boolean estVivant;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -44,4 +47,19 @@ public class Individu extends GameObject{
 	public void setEstVivant(boolean estVivant) {
 		this.estVivant = estVivant;
 	}
+	
+	public abstract void handleInput();
+	
+	
+	public void droite() {
+		getBody().setLinearVelocity(getVitesse());
+	}
+	
+	public void gauche() {
+		getBody().setLinearVelocity(-getVitesse().x, getVitesse().y);
+	}
+	
+	public void stop() {
+        getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
+    }
 }
