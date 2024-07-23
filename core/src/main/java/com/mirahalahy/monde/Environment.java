@@ -1,7 +1,5 @@
 package com.mirahalahy.monde;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -16,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mirahalahy.objet.GameObject;
+import com.mirahalahy.objet.entite.vivant.Joueur;
 
 public class Environment {
     int id;
@@ -24,26 +22,17 @@ public class Environment {
     OrthogonalTiledMapRenderer tmr;
     World world;
     Box2DDebugRenderer rendererBox2d;
-    GameObject player;
+    Joueur player;
 
     public Environment(int id) {
         map = new TmxMapLoader().load("maps/level1.tmx");
         initWorld();
         createWorld();
-        player = new GameObject(world, 28, 28);
-        player.setPosition(new Vector2(0, 100));
-        player.setImage("images/player/Idle.png", 11);
-        player.createBody();
-        player.setVitesse(new Vector2(0, -250));
+        player = new Joueur(world);
     }
 
     public void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            Camera.getCamera().position.x += 1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            Camera.getCamera().position.x -= 1;
-        }
+    	player.handleInput();
     }
 
     public void initWorld() {
@@ -80,6 +69,7 @@ public class Environment {
 
     public void render() {
         handleInput();
+        Camera.getCamera().position.set(player.getPosition().x, player.getPosition().y, 0);
         Camera.update();
         tmr.setView(Camera.getCamera());
         tmr.render();
