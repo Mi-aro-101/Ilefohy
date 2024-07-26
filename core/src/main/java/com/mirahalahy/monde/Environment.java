@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mirahalahy.listener.ProjectileContact;
 import com.mirahalahy.objet.entite.vivant.Joueur;
 
 public class Environment {
@@ -29,6 +30,7 @@ public class Environment {
         initWorld();
         createWorld();
         player = new Joueur(world);
+        world.setContactListener(new ProjectileContact(world));
     }
 
     public void handleInput() {
@@ -38,7 +40,7 @@ public class Environment {
     public void initWorld() {
         tmr = new OrthogonalTiledMapRenderer(map);
         Camera.setCamera(new OrthographicCamera());
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, -250), true);
         rendererBox2d = new Box2DDebugRenderer();
     }
 
@@ -68,12 +70,13 @@ public class Environment {
     }
 
     public void render() {
-        handleInput();
         Camera.getCamera().position.set(player.getPosition().x, player.getPosition().y, 0);
         Camera.update();
         tmr.setView(Camera.getCamera());
         tmr.render();
         rendererBox2d.render(world, Camera.getCombined());
+        ProjectileContact.handleDestroyBody(world);
+        handleInput();
         world.step(1/60f, 6, 2);
         player.renderImage();
     }

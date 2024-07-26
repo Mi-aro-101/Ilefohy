@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -24,7 +26,32 @@ public class GameObject {
     SpriteBatch batch;
     FixtureDef fdef;
     Vector2 vitesse;
-    boolean flip = false;
+    public World getWorld() {
+		return world;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
+	}
+
+
+	boolean flip = false;
     float stateTime = 0f;
     float width = 0, height = 0;
 
@@ -138,8 +165,29 @@ public class GameObject {
 
         body.createFixture(fdef);
         shape.dispose();
+        body.setUserData(this);
     }
     
+    public void createBody(BodyType type) {
+        BodyDef bdef = new BodyDef();
+        bdef.type = type;
+        bdef.position.set(sprite.getX() + width/2, sprite.getY() + height/2);
+
+        body = world.createBody(bdef);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width / 2, height / 2);
+
+        fdef.shape = shape;
+
+        body.createFixture(fdef);
+        shape.dispose();
+    }
+    
+    
+    public void setBody(Body body) {
+    	this.body = body;
+    }
 
     public Body getBody() {
         return body;
@@ -162,5 +210,10 @@ public class GameObject {
         batch.begin();
         batch.draw(currentFrame, this.getSprite().getX() - width/2, this.getSprite().getY() - height/2);
         batch.end();
+    }
+    
+    public Object onColision(Fixture fixture) {
+    	Object valiny = null;
+    	return valiny;
     }
 }

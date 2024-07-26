@@ -15,4 +15,14 @@ public class Ennemi extends Individu{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void meurt() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void attaque() {
+		// TODO Auto-generated method stub
+		
+	}
 }

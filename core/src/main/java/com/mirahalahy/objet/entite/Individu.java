@@ -1,5 +1,6 @@
 package com.mirahalahy.objet.entite;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mirahalahy.objet.GameObject;
 
@@ -49,14 +50,15 @@ public abstract class Individu extends GameObject{
 	}
 	
 	public abstract void handleInput();
-	
+	public abstract void meurt();
+	public abstract void attaque();
 	
 	public void droite() {
-		getBody().setLinearVelocity(getVitesse());
+		getBody().applyForceToCenter(new Vector2(getVitesse().x, 0), true);
 	}
 	
 	public void gauche() {
-		getBody().setLinearVelocity(-getVitesse().x, getVitesse().y);
+		getBody().applyForceToCenter(new Vector2(-getVitesse().x, 0), true);
 	}
 	
 	public void stop() {
